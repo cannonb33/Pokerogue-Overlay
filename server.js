@@ -165,6 +165,26 @@ app.get("/sprite", async (req, res) => {
   }
 });
 
+// ── Slot names ───────────────────────────────────────────────────────────────
+// GET /names        → all 6 slot names as array
+// GET /names?slot=0 → single slot name as string
+app.get("/names", (req, res) => {
+  const team = latestData.team || [];
+  if (req.query.slot !== undefined) {
+    const slot = parseInt(req.query.slot);
+    if (isNaN(slot) || slot < 0 || slot > 5)
+      return res.status(400).json({ error: "slot must be 0–5" });
+    const p = team[slot];
+    return res.json({ slot, name: p ? (p.nickname || p.name) : null });
+  }
+  // Return all slots
+  const slots = Array.from({ length: 6 }, (_, i) => {
+    const p = team[i];
+    return { slot: i, name: p ? (p.nickname || p.name) : null };
+  });
+  res.json(slots);
+});
+
 // ── Data API ──────────────────────────────────────────────────────────────────
 app.get("/data", (req, res) => res.json(latestData));
 
@@ -182,4 +202,5 @@ app.listen(PORT, () => {
   console.log(`  Party strip:   http://localhost:${PORT}/party`);
   console.log(`  Run stats:     http://localhost:${PORT}/stats`);
   console.log(`  Sprite proxy:  http://localhost:${PORT}/sprite?slot=0`);
+  console.log(`  Slot names:    http://localhost:${PORT}/names`);
 });

@@ -637,6 +637,35 @@
       </div>
     </div>
 
+    <!-- /names -->
+    <div class="route-card">
+      <div class="route-header">
+        <div class="route-meta">
+          <div class="route-path"><span class="method-tag">GET</span> /names</div>
+          <div class="route-name">Slot Names</div>
+          <div class="route-desc">Returns the name (or nickname if set) of Pokémon in the party. Without a param returns all 6 slots as an array. Pass <code style="font-size:11px;background:rgba(34,211,238,0.1);padding:1px 5px;border-radius:3px;color:#22d3ee;">?slot=N</code> to get a single slot. Empty slots return <code style="font-size:11px;background:rgba(34,211,238,0.1);padding:1px 5px;border-radius:3px;color:#22d3ee;">null</code>.</div>
+          <div class="route-tags">
+            <span class="tag api">JSON API</span>
+          </div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl(this, '/names')">Copy URL</button>
+      </div>
+      <div class="route-preview">
+        <div class="preview-label">Live response</div>
+        <div style="background:#000;border:1px solid var(--border);border-radius:8px;padding:16px;font-size:11px;line-height:1.7;color:#a3e635;max-height:160px;overflow:auto;font-family:var(--mono);" id="namesPreview">
+          Loading…
+        </div>
+        <div class="params">
+          <div class="params-head"><span>Parameter</span><span>Type</span><span>Description</span></div>
+          <div class="param-row">
+            <span class="param-name">slot</span>
+            <span class="param-type">integer?</span>
+            <span class="param-desc">Optional. Party slot 0–5. Omit to get all slots.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- /data -->
     <div class="route-card">
       <div class="route-header">
@@ -712,6 +741,16 @@
   }
 
   // ── Data preview ─────────────────────────────────────────────────────────
+  async function refreshNames() {
+    try {
+      const res  = await fetch('/names', { cache: 'no-store' });
+      const data = await res.json();
+      document.getElementById('namesPreview').textContent = JSON.stringify(data, null, 2);
+    } catch {
+      document.getElementById('namesPreview').textContent = '// Server offline';
+    }
+  }
+
   async function refreshData() {
     try {
       const res = await fetch('/data', { cache: 'no-store' });
