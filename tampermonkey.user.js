@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         PokëRogue Full Overlay Exporter
+// @name         Pokï¿½Rogue Full Overlay Exporter
 // @namespace    local.pokerogue.overlay
 // @version      6.3
 // @match        https://pokerogue.net/*
@@ -95,7 +95,9 @@
         p.fusion ||
         p.fusionSpecies ||
         p.fusionName ||
-        ""
+        "",
+      shiny: !!p.shiny,
+      variant: p.variant || ""
     };
   }
 
@@ -107,6 +109,8 @@
       wave: info.wave ?? "--",
       biome: info.biome ?? "",
       gameMode: info.gameMode ?? "",
+      playTime: info.playTime ?? 0,
+      money: info.money ?? 0,
       team: info.party.map(normalizePokemon)
     };
 
