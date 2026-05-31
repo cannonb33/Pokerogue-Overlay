@@ -11,7 +11,6 @@
       --bad:  #ff4f5e;
     }
 
-    /* ── Type RGB values (used directly in JS, not as CSS vars on badges) ── */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -20,9 +19,10 @@
       color: #f8fbff;
     }
 
-    /* ── Strip ──────────────────────────────────────────────────────────── */
+    /* ── Strip (horizontal default) ─────────────────────────────────────── */
     .strip {
       display: flex;
+      flex-direction: row;
       gap: 8px;
       padding: 10px;
       background: linear-gradient(180deg, rgba(8,10,24,0.88), rgba(4,8,20,0.84));
@@ -33,68 +33,162 @@
       width: max-content;
     }
 
-    /* ── Card ───────────────────────────────────────────────────────────── */
-    .card {
-      display: flex;
+    /* ── Strip (vertical) ────────────────────────────────────────────────── */
+    .strip.vertical {
       flex-direction: column;
-      align-items: center;
-      width: 130px;
-      padding: 8px 7px 9px;
+      width: 320px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       CARD — shared base
+    ═══════════════════════════════════════════════════════════════════════ */
+    .card {
       background: linear-gradient(170deg,
         rgba(var(--card-rgb), 0.18) 0%,
         rgba(var(--card-rgb), 0.05) 100%);
       border: 1px solid rgba(var(--card-rgb), 0.3);
       border-radius: 12px;
-      gap: 4px;
       position: relative;
+      overflow: hidden;
     }
 
     .card.fainted { opacity: 0.38; filter: grayscale(0.75); }
 
-    /* ── Shiny badge ─────────────────────────────────────────────────── */
-    .shiny-badge {
-      position: absolute;
-      top: 5px; right: 6px;
-      font-size: 11px; line-height: 1;
+    /* ── HORIZONTAL card layout ──────────────────────────────────────────── */
+    .strip:not(.vertical) .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 130px;
+      padding: 8px 7px 9px;
+      gap: 4px;
     }
 
-    /* ── Sprite ──────────────────────────────────────────────────────── */
-    .sprite-wrap {
-      width: 72px; height: 60px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sprite {
-      max-width: 72px; max-height: 60px;
-      image-rendering: pixelated;
-      object-fit: contain;
-    }
+    .strip:not(.vertical) .col-left  { display: contents; }
+    .strip:not(.vertical) .col-right { display: contents; }
 
-    /* ── Name + level ────────────────────────────────────────────────── */
-    .poke-name {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px; font-weight: 700;
-      text-align: center;
+    .strip:not(.vertical) .poke-name {
+      font-size: 11px; text-align: center;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       width: 100%;
     }
+
+    .strip:not(.vertical) .name-level {
+      display: contents;
+    }
+
+    .strip:not(.vertical) .shiny-badge {
+      position: absolute;
+      top: 5px; right: 6px;
+    }
+
+    .strip:not(.vertical) .types {
+      justify-content: center;
+    }
+
+    /* ── VERTICAL card layout ────────────────────────────────────────────── */
+    .strip.vertical .card {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      width: 100%;
+      padding: 8px 10px 8px 8px;
+      gap: 10px;
+    }
+
+    .strip.vertical .col-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 4px;
+      flex-shrink: 0;
+      width: 72px;
+    }
+
+    .strip.vertical .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+      justify-content: center;
+    }
+
+    .strip.vertical .shiny-badge {
+      position: static;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .strip.vertical .poke-name {
+      font-size: 12px; font-weight: 700;
+      text-align: left;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .strip.vertical .name-level {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .strip.vertical .types {
+      justify-content: flex-start;
+    }
+
+    /* 2-column move grid in vertical mode */
+    .strip.vertical .moves {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       SHARED COMPONENTS
+    ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Shiny badge */
+    .shiny-badge { font-size: 11px; line-height: 1; }
+
+    /* Sprite */
+    .sprite-wrap {
+      width: 72px; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sprite {
+      max-width: 72px; max-height: 60px;
+      image-rendering: pixelated; object-fit: contain;
+    }
+
+    /* Name */
+    .poke-name {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+    }
+
+    /* Level */
     .level {
       font-size: 10px;
       color: rgba(255,255,255,0.48);
       letter-spacing: 0.05em;
+      white-space: nowrap;
     }
 
-    /* ── Type badges ─────────────────────────────────────────────────── */
-    .types { display: flex; gap: 3px; flex-wrap: wrap; justify-content: center; }
+    /* Types */
+    .types { display: flex; gap: 3px; flex-wrap: wrap; }
 
     .type-badge {
       font-size: 9px; font-weight: 700;
       letter-spacing: 0.06em; text-transform: uppercase;
       padding: 1px 6px; border-radius: 10px; color: #fff;
-      /* background and border set inline with correct RGB per type */
     }
 
-    /* ── HP bar ──────────────────────────────────────────────────────── */
+    /* HP bar */
     .hp-bar-wrap { width: 100%; padding: 0 2px; }
+    .strip.vertical .hp-bar-wrap { padding: 0; }
+
     .hp-bar-bg {
       width: 100%; height: 4px;
       background: rgba(255,255,255,0.1);
@@ -108,15 +202,17 @@
       font-size: 9px; color: rgba(255,255,255,0.45);
       text-align: center; margin-top: 2px;
     }
+    .strip.vertical .hp-text { text-align: left; }
 
-    /* ── Status ──────────────────────────────────────────────────────── */
+    /* Status badge */
     .status-badge {
       font-size: 9px; font-weight: 700;
       letter-spacing: 0.06em; text-transform: uppercase;
       padding: 1px 6px; border-radius: 10px;
+      align-self: flex-start;
     }
 
-    /* ── Moves ───────────────────────────────────────────────────────── */
+    /* Moves */
     .moves {
       width: 100%;
       display: flex; flex-direction: column; gap: 2px;
@@ -146,27 +242,21 @@
     .move.empty .move-name { color: rgba(255,255,255,0.2); font-style: italic; }
     .move.empty .move-dot  { background: rgba(255,255,255,0.1); }
 
-    /* ── Divider ─────────────────────────────────────────────────────── */
+    /* Divider */
     .divider {
       width: 100%; height: 1px;
       background: rgba(255,255,255,0.08);
       margin: 1px 0;
     }
 
-    /* ── Empty slot ──────────────────────────────────────────────────── */
-    .card.empty {
-      opacity: 0.15; border-style: dashed;
-      --card-rgb: 139,92,246;
-    }
+    /* Empty slot */
+    .card.empty { opacity: 0.15; border-style: dashed; --card-rgb: 139,92,246; }
     .empty-sprite {
       width: 48px; height: 48px; border-radius: 50%;
       background: rgba(255,255,255,0.05);
     }
 
-    #loading {
-      color: rgba(255,255,255,0.4);
-      font-size: 14px; padding: 24px;
-    }
+    #loading { color: rgba(255,255,255,0.4); font-size: 14px; padding: 24px; }
   </style>
 </head>
 <body>
@@ -175,73 +265,56 @@
   </div>
 
   <script>
-    // ── Type → RGB (used directly, no CSS variable indirection) ──────────────
+    // ── Layout from URL param ─────────────────────────────────────────────────
+    const isVertical = new URLSearchParams(location.search).get('layout') === 'vertical';
+    if (isVertical) document.getElementById('strip').classList.add('vertical');
+
+    // ── Type → RGB ────────────────────────────────────────────────────────────
     const TYPE_RGB = {
-      NORMAL:   '168,168,120', FIRE:     '240,128,48',
-      WATER:    '104,144,240', ELECTRIC: '248,208,48',
-      GRASS:    '120,200,80',  ICE:      '152,216,216',
-      FIGHTING: '192,48,40',   POISON:   '160,64,160',
-      GROUND:   '224,192,104', FLYING:   '168,144,240',
-      PSYCHIC:  '248,88,136',  BUG:      '168,184,32',
-      ROCK:     '184,160,56',  GHOST:    '112,88,152',
-      DRAGON:   '112,56,248',  DARK:     '112,88,72',
-      STEEL:    '184,184,208', FAIRY:    '238,153,172',
+      NORMAL:'168,168,120', FIRE:'240,128,48',   WATER:'104,144,240',
+      ELECTRIC:'248,208,48', GRASS:'120,200,80', ICE:'152,216,216',
+      FIGHTING:'192,48,40',  POISON:'160,64,160', GROUND:'224,192,104',
+      FLYING:'168,144,240',  PSYCHIC:'248,88,136', BUG:'168,184,32',
+      ROCK:'184,160,56',     GHOST:'112,88,152',  DRAGON:'112,56,248',
+      DARK:'112,88,72',      STEEL:'184,184,208', FAIRY:'238,153,172',
     };
 
     const STATUS_STYLE = {
-      BRN:  'background:rgba(255,100,61,0.25);border:1px solid rgba(255,100,61,0.5);color:#ff643d',
-      PAR:  'background:rgba(255,212,71,0.22);border:1px solid rgba(255,212,71,0.45);color:#ffd447',
-      PSN:  'background:rgba(160,64,160,0.22);border:1px solid rgba(160,64,160,0.45);color:#c080c0',
-      TOX:  'background:rgba(160,64,160,0.22);border:1px solid rgba(160,64,160,0.45);color:#c080c0',
-      SLP:  'background:rgba(154,168,255,0.22);border:1px solid rgba(154,168,255,0.45);color:#9aa8ff',
-      FRZ:  'background:rgba(105,215,255,0.22);border:1px solid rgba(105,215,255,0.45);color:#69d7ff',
+      BRN: 'background:rgba(255,100,61,0.25);border:1px solid rgba(255,100,61,0.5);color:#ff643d',
+      PAR: 'background:rgba(255,212,71,0.22);border:1px solid rgba(255,212,71,0.45);color:#ffd447',
+      PSN: 'background:rgba(160,64,160,0.22);border:1px solid rgba(160,64,160,0.45);color:#c080c0',
+      TOX: 'background:rgba(160,64,160,0.22);border:1px solid rgba(160,64,160,0.45);color:#c080c0',
+      SLP: 'background:rgba(154,168,255,0.22);border:1px solid rgba(154,168,255,0.45);color:#9aa8ff',
+      FRZ: 'background:rgba(105,215,255,0.22);border:1px solid rgba(105,215,255,0.45);color:#69d7ff',
     };
 
-    function typeRgb(t) {
-      return TYPE_RGB[(t || '').toUpperCase()] || '139,92,246';
-    }
+    function typeRgb(t) { return TYPE_RGB[(t||'').toUpperCase()] || '139,92,246'; }
 
     function hpPct(p) {
-      const hp  = Number(p.hp  ?? p.currentHP ?? 0);
-      const max = Number(p.maxHp ?? p.maxHP   ?? 1);
-      return Math.max(0, Math.min(100, (hp / max) * 100));
+      return Math.max(0, Math.min(100,
+        (Number(p.hp ?? p.currentHP ?? 0) / Number(p.maxHp ?? p.maxHP ?? 1)) * 100));
     }
     function hpColor(pct) {
-      if (pct <= 25) return 'var(--bad)';
-      if (pct <= 50) return 'var(--warn)';
-      return 'var(--good)';
+      return pct <= 25 ? 'var(--bad)' : pct <= 50 ? 'var(--warn)' : 'var(--good)';
     }
 
-    // ── Sprite via server proxy ───────────────────────────────────────────────
-    function spriteUrl(slot) {
-      return `/sprite?slot=${slot}&_=${Date.now()}`;
-    }
-
-    // ── Type badge HTML ───────────────────────────────────────────────────────
     function typeBadge(t) {
       const rgb = typeRgb(t);
       return `<span class="type-badge"
-        style="background:rgba(${rgb},0.28);border:1px solid rgba(${rgb},0.55);"
-        >${t}</span>`;
+        style="background:rgba(${rgb},0.28);border:1px solid rgba(${rgb},0.55);">${t}</span>`;
     }
 
-    // ── Move row HTML ─────────────────────────────────────────────────────────
     function moveRow(move) {
-      if (!move || !move.name) {
-        return `<div class="move empty">
-          <div class="move-dot"></div>
-          <span class="move-name">—</span>
-        </div>`;
-      }
+      if (!move || !move.name) return `<div class="move empty">
+        <div class="move-dot"></div><span class="move-name">—</span></div>`;
       const rgb  = typeRgb(move.type || '');
-      const name = move.name.replace(/ \(P\)$/, ''); // strip (P) passive marker
+      const name = move.name.replace(/ \(P\)$/, '');
       return `<div class="move" style="border-color:rgba(${rgb},0.22);">
-        <div class="move-dot" style="background:rgba(${rgb},0.9);box-shadow:0 0 4px rgba(${rgb},0.6);"></div>
+        <div class="move-dot" style="background:rgba(${rgb},0.9);box-shadow:0 0 4px rgba(${rgb},0.5);"></div>
         <span class="move-name" title="${move.name}">${name}</span>
       </div>`;
     }
 
-    // ── Card HTML ─────────────────────────────────────────────────────────────
     function renderCard(p, slot) {
       const pct        = hpPct(p);
       const primaryRgb = typeRgb((p.types || [])[0] || 'Normal');
@@ -261,34 +334,49 @@
       while (moves.length < 4) moves.push(null);
       const movesHtml = moves.slice(0, 4).map(moveRow).join('');
 
+      const displayName = p.nickname || p.name;
+
+      // Both layouts use col-left / col-right wrappers.
+      // In horizontal mode, display:contents dissolves them so children
+      // flow as normal flex children of .card.
       return `
         <div class="card ${isFainted ? 'fainted' : ''}"
              style="--card-rgb:${primaryRgb}">
-          ${shinyHtml}
-          <div class="sprite-wrap">
-            <img class="sprite" src="${spriteUrl(slot)}"
-              alt="${p.name}" style="image-rendering:pixelated;">
-          </div>
-          <div class="poke-name">${p.nickname ? p.nickname : p.name}</div>
-          <div class="level">Lv.${p.level ?? '--'}</div>
-          <div class="types">${typesHtml}</div>
-          ${statusHtml}
-          <div class="hp-bar-wrap">
-            <div class="hp-bar-bg">
-              <div class="hp-bar-fill"
-                   style="width:${pct}%;background:${hpColor(pct)};"></div>
+          <div class="col-left">
+            <div class="sprite-wrap">
+              <img class="sprite" src="/sprite?slot=${slot}&_=${Date.now()}"
+                alt="${p.name}" style="image-rendering:pixelated;">
             </div>
-            <div class="hp-text">${p.hp ?? '--'}/${p.maxHp ?? '--'}</div>
+            ${shinyHtml}
           </div>
-          <div class="divider"></div>
-          <div class="moves">${movesHtml}</div>
+          <div class="col-right">
+            <div class="name-level">
+              <div class="poke-name">${displayName}</div>
+              <div class="level">Lv.${p.level ?? '--'}</div>
+            </div>
+            <div class="types">${typesHtml}</div>
+            ${statusHtml}
+            <div class="hp-bar-wrap">
+              <div class="hp-bar-bg">
+                <div class="hp-bar-fill"
+                     style="width:${pct}%;background:${hpColor(pct)};"></div>
+              </div>
+              <div class="hp-text">${p.hp ?? '--'}/${p.maxHp ?? '--'}</div>
+            </div>
+            <div class="divider"></div>
+            <div class="moves">${movesHtml}</div>
+          </div>
         </div>`;
     }
 
     function renderEmpty() {
       return `<div class="card empty">
-        <div class="sprite-wrap"><div class="empty-sprite"></div></div>
-        <div class="poke-name" style="opacity:0.3">Empty</div>
+        <div class="col-left">
+          <div class="sprite-wrap"><div class="empty-sprite"></div></div>
+        </div>
+        <div class="col-right">
+          <div class="poke-name" style="opacity:0.3">Empty</div>
+        </div>
       </div>`;
     }
 

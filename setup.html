@@ -549,7 +549,7 @@
         <div class="route-meta">
           <div class="route-path"><span class="method-tag">GET</span> /party</div>
           <div class="route-name">Party Strip</div>
-          <div class="route-desc">Horizontal 6-slot strip showing every Pokémon's sprite, name, level, types, HP bar, status condition, and shiny ✨ badge. Fainted Pokémon are automatically dimmed.</div>
+          <div class="route-desc">6-slot party panel showing every Pokémon's sprite, name, level, types, HP bar, moves, status, and shiny ✨ badge. Fainted Pokémon are automatically dimmed. Supports two layouts via the <code style="font-size:11px;background:rgba(34,211,238,0.1);padding:1px 5px;border-radius:3px;color:#22d3ee;">?layout=</code> param.</div>
           <div class="route-tags">
             <span class="tag obs">OBS Source</span>
             <span class="tag page">Widget</span>
@@ -558,12 +558,19 @@
         <button class="copy-btn" onclick="copyUrl(this, '/party')">Copy URL</button>
       </div>
       <div class="route-preview">
-        <div class="preview-label">Preview</div>
+        <div class="preview-label">Horizontal — <code style="color:#22d3ee;font-size:11px;">/party</code> or <code style="color:#22d3ee;font-size:11px;">/party?layout=horizontal</code></div>
         <div class="iframe-shell shell-party">
-          <iframe src="/party" width="740" height="138" scrolling="no"></iframe>
+          <iframe src="/party" width="820" height="160" scrolling="no"></iframe>
+        </div>
+        <div class="obs-tip" style="margin-bottom:12px;">
+          <strong>OBS tip:</strong> Recommended size ~840×175px. Great placed along the bottom of your scene.
+        </div>
+        <div class="preview-label" style="margin-top:8px;">Vertical — <code style="color:#22d3ee;font-size:11px;">/party?layout=vertical</code></div>
+        <div class="iframe-shell" style="min-height:520px;justify-content:flex-start;">
+          <iframe src="/party?layout=vertical" width="320" height="510" scrolling="no"></iframe>
         </div>
         <div class="obs-tip">
-          <strong>OBS tip:</strong> Recommended size ~760×150px. Great placed along the bottom of your scene below the game capture.
+          <strong>OBS tip:</strong> Recommended size ~340×530px. Works well as a side panel beside your game capture.
         </div>
       </div>
     </div>
