@@ -275,6 +275,7 @@
     }
 
     .iframe-shell {
+      overflow: auto;
       background: repeating-conic-gradient(rgba(255,255,255,0.03) 0% 25%, transparent 0% 50%) 0 0 / 20px 20px;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -497,7 +498,7 @@
     <div class="route-card">
       <div class="route-header">
         <div class="route-meta">
-          <div class="route-path"><span class="method-tag">GET</span> /</div>
+          <div class="route-path"><span class="method-tag">GET</span> /full</div>
           <div class="route-name">Main Overlay</div>
           <div class="route-desc">Full-featured overlay panel showing your entire party with HP bars, moves, abilities, natures, and boss wave tracker. Includes an inline editor for manual data entry.</div>
           <div class="route-tags">
@@ -505,12 +506,12 @@
             <span class="tag page">Full Page</span>
           </div>
         </div>
-        <button class="copy-btn" onclick="copyUrl(this, '/')">Copy URL</button>
+        <button class="copy-btn" onclick="copyUrl(this, '/full')">Copy URL</button>
       </div>
       <div class="route-preview">
         <div class="preview-label">Preview</div>
         <div class="iframe-shell shell-overlay">
-          <iframe src="/" width="900" height="280" style="transform:scale(0.62);transform-origin:top left;width:1500px;height:460px;border-radius:10px;"></iframe>
+          <iframe src="/full" width="900" height="280" style="transform:scale(0.62);transform-origin:top left;width:1500px;height:460px;border-radius:10px;"></iframe>
         </div>
         <div class="obs-tip">
           <strong>OBS tip:</strong> Use 1920×1080 browser source. Place your game capture behind this layer. The left panel is intentionally blank — that's where your game capture goes.
@@ -535,7 +536,7 @@
       <div class="route-preview">
         <div class="preview-label">Preview</div>
         <div class="iframe-shell shell-wave">
-          <iframe src="/wave" width="260" height="115" scrolling="no"></iframe>
+          <iframe src="/wave" width="260" height="115" scrolling="yes"></iframe>
         </div>
         <div class="obs-tip">
           <strong>OBS tip:</strong> Recommended size ~280×130px. Transparent background. Works well anchored to a corner of your game capture.
@@ -560,14 +561,14 @@
       <div class="route-preview">
         <div class="preview-label">Horizontal — <code style="color:#22d3ee;font-size:11px;">/party</code> or <code style="color:#22d3ee;font-size:11px;">/party?layout=horizontal</code></div>
         <div class="iframe-shell shell-party">
-          <iframe src="/party" width="820" height="160" scrolling="no"></iframe>
+          <iframe src="/party" width="820" height="160" scrolling="yes"></iframe>
         </div>
         <div class="obs-tip" style="margin-bottom:12px;">
           <strong>OBS tip:</strong> Recommended size ~840×175px. Great placed along the bottom of your scene.
         </div>
         <div class="preview-label" style="margin-top:8px;">Vertical — <code style="color:#22d3ee;font-size:11px;">/party?layout=vertical</code></div>
         <div class="iframe-shell" style="min-height:520px;justify-content:flex-start;">
-          <iframe src="/party?layout=vertical" width="320" height="510" scrolling="no"></iframe>
+          <iframe src="/party?layout=vertical" width="320" height="510" scrolling="yes"></iframe>
         </div>
         <div class="obs-tip">
           <strong>OBS tip:</strong> Recommended size ~340×530px. Works well as a side panel beside your game capture.
@@ -592,7 +593,7 @@
       <div class="route-preview">
         <div class="preview-label">Preview</div>
         <div class="iframe-shell shell-stats">
-          <iframe src="/stats" width="220" height="230" scrolling="no"></iframe>
+          <iframe src="/stats" width="220" height="230" scrolling="yes"></iframe>
         </div>
         <div class="obs-tip">
           <strong>OBS tip:</strong> Recommended size ~230×240px. Pairs well with the wave widget — stack them vertically in a side panel.

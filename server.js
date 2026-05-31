@@ -127,8 +127,8 @@ app.use(express.json({ limit: "2mb" }));
 app.use(express.static(__dirname));
 
 // ── Pages ─────────────────────────────────────────────────────────────────────
-app.get("/",      (req, res) => res.sendFile(path.join(__dirname, "overlay.html")));
-app.get("/setup", (req, res) => res.sendFile(path.join(__dirname, "setup.html")));
+app.get("/",      (req, res) => res.sendFile(path.join(__dirname, "setup.html")));
+app.get("/full",  (req, res) => res.sendFile(path.join(__dirname, "overlay.html")));
 app.get("/wave",  (req, res) => res.sendFile(path.join(__dirname, "wave.html")));
 app.get("/party", (req, res) => res.sendFile(path.join(__dirname, "party.html")));
 app.get("/stats", (req, res) => res.sendFile(path.join(__dirname, "stats.html")));
@@ -176,8 +176,8 @@ app.post("/update", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`PokéRogue overlay running at http://localhost:${PORT}`);
-  console.log(`  Main overlay:  http://localhost:${PORT}/`);
-  console.log(`  Setup guide:   http://localhost:${PORT}/setup`);
+  console.log(`  Setup guide:   http://localhost:${PORT}/`);
+  console.log(`  Main overlay:  http://localhost:${PORT}/full`);
   console.log(`  Wave display:  http://localhost:${PORT}/wave`);
   console.log(`  Party strip:   http://localhost:${PORT}/party`);
   console.log(`  Run stats:     http://localhost:${PORT}/stats`);
